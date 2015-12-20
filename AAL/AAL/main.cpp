@@ -1,4 +1,6 @@
-#include "PathFinder.h"
+#include "AStar.h"
+#include "BellmanFord.h"
+#include "Dijkstra.h"
 #include <string>
 #include <fstream>
 
@@ -107,17 +109,17 @@ int main()
 	//raster.printMap();
 
 	std::cout << "Bellman_Ford\n";
-	PathFinder::Bellman_Ford_algorithm(raster);
+	std::cout << BellmanFord::findShortestPath(raster) << std::endl;
 	//raster.printWayMap();
 
 	raster.reset();
 	std::cout << "A_star\n";
-	PathFinder::A_star_algorithm(raster);
+	std::cout << AStar::findShortestPath(raster) << std::endl;
 	//raster.printWayMap();
 
 	raster.reset();
 	std::cout << "Dijkstra\n";
-	PathFinder::Dijkstra_algorithm(raster);
+	std::cout << Dijkstra::findShortestPath(raster) << std::endl;
 	//raster.printWayMap();
 
 	//std::cout << std::clock() << std::endl;
