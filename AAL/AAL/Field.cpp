@@ -1,21 +1,19 @@
 #include "Field.h"
 
 
+
 Field::Field() : allowed(true), G(-1), H(-1), F(-1)
 {
-
 }
 
 
 Field::Field(Coords _coords, bool _allowed) : coords(_coords), allowed(_allowed), G(-1), H(-1), F(-1), parent(nullptr)
 {
-
 }
 
 
 Field::~Field()
 {
-
 }
 
 

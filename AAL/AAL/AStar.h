@@ -2,6 +2,7 @@
 
 #include "Raster.h"
 #include "Timer.h"
+#include "BoolMatrix.h"
 #include <queue>
 #include <functional>
 
@@ -10,7 +11,7 @@ class AStar
 private:
 	AStar();
 	~AStar();
-public:
+
 	/* Heuristic function that estimates the length from one field to another. It has a property of underestimation
 	* so that's why with this function we can find optimal path
 	* @param {Field&}: begin field
@@ -27,10 +28,10 @@ public:
 	};
 
 	/* Prepare raster to A star algorithm (set proper values of G, H, F)
-	 * @param {Raster&} raster: data to modify
-	 */
+	* @param {Raster&} raster: data to modify
+	*/
 	static void prepare(Raster& raster);
-
+public:
 	/* Find the shortest path using A star algorithm 
 	 * @param {Raster&} raster: data to find path and modify
 	 * @returns {long long}: measured time

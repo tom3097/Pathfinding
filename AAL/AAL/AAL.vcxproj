@@ -148,7 +148,9 @@
   <ItemGroup>
     <ClInclude Include="AStar.h" />
     <ClInclude Include="BellmanFord.h" />
+    <ClInclude Include="BoolMatrix.h" />
     <ClInclude Include="Coords.h" />
+    <ClInclude Include="DataGenerator.h" />
     <ClInclude Include="Dijkstra.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="Raster.h" />
@@ -157,7 +159,9 @@
   <ItemGroup>
     <ClCompile Include="AStar.cpp" />
     <ClCompile Include="BellmanFord.cpp" />
+    <ClCompile Include="BoolMatrix.cpp" />
     <ClCompile Include="Coords.cpp" />
+    <ClCompile Include="DataGenerator.cpp" />
     <ClCompile Include="Dijkstra.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="main.cpp" />

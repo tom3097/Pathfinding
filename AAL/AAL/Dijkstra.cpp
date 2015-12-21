@@ -1,15 +1,14 @@
 #include "Dijkstra.h"
 
 
+
 Dijkstra::Dijkstra()
 {
-
 }
 
 
 Dijkstra::~Dijkstra()
 {
-
 }
 
 
@@ -42,16 +41,7 @@ long long Dijkstra::findShortestPath(Raster& raster) {
 		}
 	}
 
-	bool** mat = new bool*[raster.getM()];
-	for (int idx = 0; idx < raster.getM(); ++idx)
-		mat[idx] = new bool[raster.getN()];
-	for (int l_idx = 0; l_idx < raster.getM(); ++l_idx)
-	{
-		for (int c_idx = 0; c_idx < raster.getN(); ++c_idx)
-		{
-			mat[l_idx][c_idx] = false;
-		}
-	}
+	bool** mat = BoolMatrix::createBoolMatrix(raster.getM(), raster.getN(), false);
 
 	while (!queue.empty())
 	{
@@ -103,9 +93,7 @@ long long Dijkstra::findShortestPath(Raster& raster) {
 		}
 	}
 
-	for (int idx = 0; idx < raster.getM(); ++idx)
-		delete[] mat[idx];
-	delete[] mat;
+	BoolMatrix::deleteBoolMatrix(raster.getM(), mat);
 
 	return timer.getEstimatedTime();
 }

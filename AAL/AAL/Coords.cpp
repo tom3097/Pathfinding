@@ -1,21 +1,19 @@
 #include "Coords.h"
 
 
+
 Coords::Coords(): x(-1), y(-1) 
 {
-
 }
 
 
 Coords::Coords(int _x, int _y) : x(_x), y(_y) 
 {
-
 }
 
 
 Coords::~Coords() 
 {
-
 }
 
 

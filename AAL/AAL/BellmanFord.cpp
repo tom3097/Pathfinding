@@ -1,15 +1,14 @@
 #include "BellmanFord.h"
 
 
+
 BellmanFord::BellmanFord()
 {
-
 }
 
 
 BellmanFord::~BellmanFord()
 {
-
 }
 
 

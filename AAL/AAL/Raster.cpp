@@ -1,6 +1,26 @@
 #include "Raster.h"
 
 
+
+Raster::Raster(): M(2), N(2), begin(Coords(0,0)), end(Coords(1,1)), pathFound(false)
+{
+	matrix.reserve(2);
+	std::vector<Field> line(N, Field());
+
+	for (int l_idx = 0; l_idx < 2; ++l_idx)
+	{
+		matrix.push_back(line);
+	}
+
+	for (int l_idx = 0; l_idx < M; ++l_idx)
+	{
+		for (int c_idx = 0; c_idx < N; ++c_idx)
+		{
+			matrix[l_idx][c_idx].setCoords(Coords(l_idx, c_idx));
+		}
+	}
+}
+
 Raster::Raster(int _M, int _N, bool **_array, Coords _begin, Coords _end) : M(_M), N(_N), begin(_begin), end(_end), pathFound(false)
 {
 	matrix.reserve(M);
@@ -25,7 +45,6 @@ Raster::Raster(int _M, int _N, bool **_array, Coords _begin, Coords _end) : M(_M
 
 Raster::~Raster()
 {
-
 }
 
 

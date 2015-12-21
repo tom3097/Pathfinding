@@ -1,53 +1,37 @@
+#include "DataGenerator.h"
 #include "AStar.h"
 #include "BellmanFord.h"
 #include "Dijkstra.h"
 #include <string>
 #include <fstream>
 
-bool ** get2Darray(size_t M, size_t N) 
+
+void showAllPathsAndTimes(Raster& raster)
 {
-	bool** arr = new bool*[M];
-	for (int l_idx = 0; l_idx < M; ++l_idx)
-		arr[l_idx] = new bool[N];
+	long long time;
+	raster.printMap();
 
-	for (int l_idx = 0; l_idx < M; ++l_idx)
-		for (int c_idx = 0; c_idx < N; ++c_idx)
-			arr[l_idx][c_idx] = true;
+	time = BellmanFord::findShortestPath(raster);
+	std::cout << "Bellman-Ford Algorithm" << std::endl;
+	std::cout << "Time (nano): " << time << std::endl;
+	std::cout << "Path: " << std::endl;
+	raster.printWayMap();
 
-	return arr;
-}
+	raster.reset();
 
+	time = Dijkstra::findShortestPath(raster);
+	std::cout << "Dijkstra Algorithm" << std::endl;
+	std::cout << "Time (nano): " << time << std::endl;
+	std::cout << "Path: " << std::endl;
+	raster.printWayMap();
 
-void deleteArray2D(bool **arrayToDelete, size_t M)
-{
-	for (int idx = 0; idx < M; ++idx)
-		delete[] arrayToDelete[idx];
-	delete[] arrayToDelete;
-}
+	raster.reset();
 
-
-void getFromInputStream()
-{
-	int choice;
-
-	std::cout << "Getting raster from input stream.\n"
-		<< "1 - get from standard input stream (keyboard)\n"
-		<< "2 - get from file\n"
-		<< "3 - back to main menu\n";
-
-	std::cin >> choice;
-
-	switch (choice)
-	{
-	case 1:
-		/* todo */
-		break;
-	case 2:
-		/* todo */
-		break;
-	case 3: 
-		break;
-	}
+	time = AStar::findShortestPath(raster);
+	std::cout << "A Star Algorithm" << std::endl;
+	std::cout << "Time (nano): " << time << std::endl;
+	std::cout << "Path: " << std::endl;
+	raster.printWayMap();
 }
 
 
@@ -60,25 +44,33 @@ void startProgram()
 	{
 		int choice;
 
-		std::cout << "Choose option:\n1(testing corectness) - get raster from input stream\n"
-			<< "2(testing corectness) - generate random raster with parametrization\n"
-			<< "3(results presentation) - generate random raster and present the results\n"
-			<< "4 - close program\n";
+		std::cout << "Choose option:\n1(testing corectness) - get raster from standard input stream\n"
+			<< "2(testing corectness) - get raster from file\n"
+			<< "3(testing corectness) - generate random raster with parametrization\n"
+			<< "4(results presentation) - generate random raster and present the results\n"
+			<< "5 - close program\n";
 
 		std::cin >> choice;
+
+		Raster raster;
 
 		switch (choice)
 		{
 		case 1:
-			getFromInputStream();
+			raster = DataGenerator::getFromStandardStream();
+			showAllPathsAndTimes(raster);
 			break;
 		case 2:
-			/* todo */
+			raster = DataGenerator::getFromFileStream();
+			showAllPathsAndTimes(raster);
 			break;
 		case 3:
 			/* rodo */
 			break;
 		case 4:
+			/* todo*/
+			break;
+		case 5:
 			exit(0);
 		}
 	}
@@ -87,43 +79,7 @@ void startProgram()
 
 int main() 
 {	
-
-	//std::cout << std::clock() << std::endl;
-	//startProgram();
-	size_t M = 100;
-	size_t N = 100;
-
-	//while (true)
-	//{
-	//	std::cout << clock() << std::endl;
-	//	std::cout << std::clock() << std::endl;
-	//}
-
-	bool ** bTable = get2Darray(M, N);
-
-	/* Zabronione punkty */
-	bTable[3][0] = bTable[3][1] = bTable[3][2] = bTable[3][3] = bTable[3][4] = bTable[3][5] = bTable[3][1] = false;
-	bTable[1][3] = bTable[2][3] = false;
-
-	Raster raster(M, N, bTable, Coords(1, 2), Coords(1,20));
-	//raster.printMap();
-
-	std::cout << "Bellman_Ford\n";
-	std::cout << BellmanFord::findShortestPath(raster) << std::endl;
-	//raster.printWayMap();
-
-	raster.reset();
-	std::cout << "A_star\n";
-	std::cout << AStar::findShortestPath(raster) << std::endl;
-	//raster.printWayMap();
-
-	raster.reset();
-	std::cout << "Dijkstra\n";
-	std::cout << Dijkstra::findShortestPath(raster) << std::endl;
-	//raster.printWayMap();
-
-	//std::cout << std::clock() << std::endl;
-
+	startProgram();
 	return 0;
 }
 

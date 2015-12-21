@@ -27,6 +27,7 @@ class Raster {
 	/* Informs if path has been found */
 	bool pathFound ;
 public:
+	Raster();
 	Raster(int _M, int _N, bool **_array, Coords _begin, Coords _end);
 	~Raster();
 

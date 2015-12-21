@@ -1,15 +1,14 @@
 #include "AStar.h"
 
 
+
 AStar::AStar()
 {
-
 }
 
 
 AStar::~AStar()
 {
-
 }
 
 
@@ -45,22 +44,8 @@ long long AStar::findShortestPath(Raster& raster) {
 
 	AStar::prepare(raster);
 
-	bool** matOL = new bool*[raster.getM()];
-	for (int idx = 0; idx < raster.getM(); ++idx)
-		matOL[idx] = new bool[raster.getN()];
-
-	bool** matCL = new bool*[raster.getM()];
-	for (int idx = 0; idx < raster.getM(); ++idx)
-		matCL[idx] = new bool[raster.getN()];
-
-	for (int l_idx = 0; l_idx < raster.getM(); ++l_idx)
-	{
-		for (int c_idx = 0; c_idx < raster.getN(); ++c_idx)
-		{
-			matOL[l_idx][c_idx] = false;
-			matCL[l_idx][c_idx] = false;
-		}
-	}
+	bool** matOL = BoolMatrix::createBoolMatrix(raster.getM(), raster.getN(), false);
+	bool** matCL = BoolMatrix::createBoolMatrix(raster.getM(), raster.getN(), false);
 
 	Queue queueOL;
 
@@ -116,13 +101,8 @@ long long AStar::findShortestPath(Raster& raster) {
 		}
 	}
 
-	for (int idx = 0; idx < raster.getM(); ++idx)
-		delete[] matOL[idx];
-	delete[] matOL;
-
-	for (int idx = 0; idx < raster.getM(); ++idx)
-		delete[] matCL[idx];
-	delete[] matCL;
+	BoolMatrix::deleteBoolMatrix(raster.getM(), matOL);
+	BoolMatrix::deleteBoolMatrix(raster.getM(), matCL);
 
 	return timer.getEstimatedTime();
 }
