@@ -7,14 +7,14 @@ Raster::Raster(): M(2), N(2), begin(Coords(0,0)), end(Coords(1,1)), pathFound(fa
 	matrix.reserve(2);
 	std::vector<Field> line(N, Field());
 
-	for (int l_idx = 0; l_idx < 2; ++l_idx)
+	for (unsigned l_idx = 0; l_idx < M; ++l_idx)
 	{
 		matrix.push_back(line);
 	}
 
-	for (int l_idx = 0; l_idx < M; ++l_idx)
+	for (unsigned l_idx = 0; l_idx < M; ++l_idx)
 	{
-		for (int c_idx = 0; c_idx < N; ++c_idx)
+		for (unsigned c_idx = 0; c_idx < N; ++c_idx)
 		{
 			matrix[l_idx][c_idx].setCoords(Coords(l_idx, c_idx));
 		}
@@ -26,14 +26,14 @@ Raster::Raster(int _M, int _N, bool **_array, Coords _begin, Coords _end) : M(_M
 	matrix.reserve(M);
 	std::vector<Field> line(N, Field());
 
-	for (int l_idx = 0; l_idx < M; ++l_idx)
+	for (unsigned l_idx = 0; l_idx < M; ++l_idx)
 	{
 		matrix.push_back(line);
 	}
 
-	for (int l_idx = 0; l_idx < M; ++l_idx) 
+	for (unsigned l_idx = 0; l_idx < M; ++l_idx) 
 	{
-		for (int c_idx = 0; c_idx < N; ++c_idx) 
+		for (unsigned c_idx = 0; c_idx < N; ++c_idx) 
 		{
 			if (!_array[l_idx][c_idx])
 				matrix[l_idx][c_idx].setAllowed(false);
@@ -50,9 +50,9 @@ Raster::~Raster()
 
 void Raster::reset() 
 {
-	for (int l_idx = 0; l_idx < M; ++l_idx) 
+	for (unsigned l_idx = 0; l_idx < M; ++l_idx) 
 	{
-		for (int c_idx = 0; c_idx < N; ++c_idx)
+		for (unsigned c_idx = 0; c_idx < N; ++c_idx)
 		{
 			matrix[l_idx][c_idx].reset();
 		}
@@ -102,56 +102,48 @@ size_t Raster::getN()
 }
 
 
-void Raster::printMap() 
+void Raster::print() 
 {
-	for (int l_idx = 0; l_idx < M; ++l_idx) 
+	for (unsigned l_idx = 0; l_idx < M; ++l_idx) 
 	{
-		for (int c_idx = 0; c_idx < N; ++c_idx) 
+		for (unsigned c_idx = 0; c_idx < N; ++c_idx) 
 		{
 			if (matrix[l_idx][c_idx] == getBegin()) { std::cout << "1 "; continue; }
 			if (matrix[l_idx][c_idx] == getEnd()) { std::cout << "2 "; continue; }
-			std::cout << (matrix[l_idx][c_idx].getAllowed() ? "W " : "B ");
+			std::cout << (matrix[l_idx][c_idx].getAllowed() ? ". " : "$ ");
 		}
 		std::cout << std::endl;
 	}
 }
 
 
-void Raster::printWayMap() 
+void Raster::printPath() 
 {
 	if (!pathFound)
 		return;
 
-	int** wayMap = new int*[M];
-	for (int idx = 0; idx < M; ++idx)
-		wayMap[idx] = new int[N];
-
-	for (int l_idx = 0; l_idx < M; ++l_idx)
-		for (int c_idx = 0; c_idx < N; ++c_idx)
-			wayMap[l_idx][c_idx] = 0;
+	int** map = MyMatrix<int>::createMatrix(M, N, 0);
 
 	Field *f = &getEnd();
 	while (*f != getBegin()) 
 	{
-		wayMap[f->getCoords().getX()][f->getCoords().getY()] = 1;
+		map[f->getCoords().getX()][f->getCoords().getY()] = 1;
 		f = f->getParent();
 	}
 
-	wayMap[getBegin().getCoords().getX()][getBegin().getCoords().getY()] = 2;
-	wayMap[getEnd().getCoords().getX()][getEnd().getCoords().getY()] = 2;
+	map[getBegin().getCoords().getX()][getBegin().getCoords().getY()] = 2;
+	map[getEnd().getCoords().getX()][getEnd().getCoords().getY()] = 2;
 
-	for (int l_idx = 0; l_idx < M; ++l_idx) 
+	for (unsigned l_idx = 0; l_idx < M; ++l_idx) 
 	{
-		for (int c_idx = 0; c_idx < N; ++c_idx) 
+		for (unsigned c_idx = 0; c_idx < N; ++c_idx) 
 		{
-			if (wayMap[l_idx][c_idx] == 2) { std::cout << "@ "; continue; }
-			if (wayMap[l_idx][c_idx] == 1) { std::cout << "# "; continue; }
+			if (map[l_idx][c_idx] == 2) { std::cout << "@ "; continue; }
+			if (map[l_idx][c_idx] == 1) { std::cout << "# "; continue; }
 			std::cout << ". ";
 		}
 		std::cout << std::endl;
 	}
 
-	for (int idx = 0; idx < M; ++idx)
-		delete[] wayMap[idx];
-	delete[] wayMap;
+	MyMatrix<int>::deleteMatrix(M, map);
 }

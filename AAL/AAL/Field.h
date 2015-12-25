@@ -12,16 +12,19 @@ class Field
 	bool allowed;
 
 	/* Actual path length from start fielt to current field */
-	unsigned G;
+	int G;
 
 	/* Estimated path length from current field to end field */
-	unsigned H;
+	int H;
 
 	/* Sum of actual path length from start to current field and estimated from current to end field */
-	unsigned F;
+	int F;
 
 	/* Field's parent */
 	Field* parent;
+
+	/* Index in heap */
+	int idx;
 public:
 	Field();
 	Field(Coords _coords, bool _allowed);
@@ -46,20 +49,20 @@ public:
 	void setParent(Field *_parent);
 
 	/* Set update all path lengths
-	 * @param {unsigned} _newG: new G length
-	 * @param {unsigned} _newH: new H length
+	 * @param {int} _newG: new G length
+	 * @param {int} _newH: new H length
 	 */
-	void updateGHF(unsigned newG, unsigned newH);
+	void updateGHF(int newG, int newH);
 
 	/* Set update all path lengths
-	 * @param {unsigned} _newG: new G length
+	 * @param {int} _newG: new G length
 	 */
-	void updateGHF(unsigned newG);
+	void updateGHF(int newG);
 
 	/* Set update all lengths: G and F
-	 * @param {unsigned} _newG: new G length
+	 * @param {int} _newG: new G length
 	 */
-	void updateGF(unsigned newG);
+	void updateGF(int newG);
 
 	/* Get coordinates 
 	 * @returns {Coords}: coordinates
@@ -72,21 +75,34 @@ public:
 	bool getAllowed() const;
 
 	/* Get allowed
-	 * @returns {unsigned}: sum of actual and estimated path lengths
+	 * @returns {int}: sum of actual and estimated path lengths
 	 */
-	unsigned getF() const;
+	int getF() const;
 
 	/* Get allowed
-	 * @returns {unsigned}: actual path length
+	 * @returns {int}: actual path length
 	 */
-	unsigned getG() const;
+	int getG() const;
 
 	/* Get allowed
 	 * @returns {Field*}: parent
 	 */
 	Field* getParent();
 
+	/* Get index in heap
+	 * @returns {int}: index in heap
+	 */
+	int getHeapIdx();
+
+	/* Set index in heap
+	 * @param {int} newIdx: new index in heap
+	 */
+	void setHeapIdx(int newIdx);
+
 	bool operator== (const Field& _field) const;
 	bool operator!= (const Field& _field) const;
+	bool operator> (const Field& _field) const;
+	bool operator<= (const Field& _field) const;
+	bool operator< (const Field& _field) const;
 };
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Field.h"
+#include "MyMatrix.h"
 #include <vector>
 #include <iostream>
 
@@ -72,9 +73,9 @@ public:
 	size_t getN();
 
 	/* Print map without path */
-	void printMap();
+	void print();
 
 	/* Print map with path*/
-	void printWayMap();
+	void printPath();
 };
 

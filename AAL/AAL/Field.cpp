@@ -2,12 +2,12 @@
 
 
 
-Field::Field() : allowed(true), G(-1), H(-1), F(-1)
+Field::Field() : allowed(true), G(-1), H(-1), F(-1), idx(-1)
 {
 }
 
 
-Field::Field(Coords _coords, bool _allowed) : coords(_coords), allowed(_allowed), G(-1), H(-1), F(-1), parent(nullptr)
+Field::Field(Coords _coords, bool _allowed) : coords(_coords), allowed(_allowed), G(-1), H(-1), F(-1), parent(nullptr), idx(-1)
 {
 }
 
@@ -42,7 +42,7 @@ void Field::setParent(Field *_parent)
 }
 
 
-void Field::updateGHF(unsigned newG, unsigned newH) 
+void Field::updateGHF(int newG, int newH)
 { 
 	G = newG; 
 	H = newH; 
@@ -50,14 +50,14 @@ void Field::updateGHF(unsigned newG, unsigned newH)
 }
 
 
-void Field::updateGHF(unsigned newG) 
+void Field::updateGHF(int newG)
 { 
 	G = newG; 
 	F = newG + H; 
 }
 
 
-void Field::updateGF(unsigned newG) 
+void Field::updateGF(int newG)
 { 
 	G = newG; 
 	F = newG; 
@@ -76,13 +76,13 @@ bool Field::getAllowed() const
 }
 
 
-unsigned Field::getF() const 
+int Field::getF() const
 { 
 	return F; 
 }
 
 
-unsigned Field::getG() const 
+int Field::getG() const
 { 
 	return G; 
 }
@@ -91,6 +91,18 @@ unsigned Field::getG() const
 Field* Field::getParent() 
 { 
 	return parent; 
+}
+
+
+int Field::getHeapIdx()
+{
+	return idx;
+}
+
+
+void Field::setHeapIdx(int newIdx)
+{
+	idx = newIdx;
 }
 
 
@@ -103,4 +115,22 @@ bool Field::operator== (const Field& _field) const
 bool Field::operator!= (const Field& _field) const 
 { 
 	return !(*this == _field); 
+}
+
+
+bool Field::operator> (const Field& _field) const
+{
+	return this->F > _field.getF();
+}
+
+
+bool Field::operator< (const Field& _field) const
+{
+	return !((*this) > _field);
+}
+
+
+bool Field::operator<= (const Field& _field) const
+{
+	return this->F <= _field.getF();
 }

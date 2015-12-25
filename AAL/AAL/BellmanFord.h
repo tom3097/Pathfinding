@@ -17,8 +17,9 @@ private:
 public:
 	/* Find the shortest path using Bellman Ford algorithm
 	* @param {Raster&} raster: data to find path and modify
+	* @param {bool} timeComplexVerif: true if we want to verify time complexity
 	* @returns {long long}: measured time
 	*/
-	static long long findShortestPath(Raster& raster);
+	static long long findShortestPath(Raster& raster, bool timeComplexVerif);
 };
 

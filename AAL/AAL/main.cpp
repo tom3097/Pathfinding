@@ -1,37 +1,68 @@
+#include <iomanip>
 #include "DataGenerator.h"
-#include "AStar.h"
-#include "BellmanFord.h"
-#include "Dijkstra.h"
-#include <string>
-#include <fstream>
+
+#define MAX_WIDTH 33
+#define MAX_HEIGHT 23
 
 
-void showAllPathsAndTimes(Raster& raster)
+void showAllSolutionsAndTimes(Raster& raster)
 {
 	long long time;
-	raster.printMap();
 
-	time = BellmanFord::findShortestPath(raster);
-	std::cout << "Bellman-Ford Algorithm" << std::endl;
-	std::cout << "Time (nano): " << time << std::endl;
-	std::cout << "Path: " << std::endl;
-	raster.printWayMap();
+	bool tiny = raster.getN() <= MAX_WIDTH && raster.getM() <= MAX_HEIGHT;
 
+	if (tiny)
+	{
+		raster.print();
+	}
+
+	time = BellmanFord::findShortestPath(raster, false);
+	std::cout << std::left << std::setw(32) << std::setfill(' ') << "Bellman-Ford Algorithm: ";
+	std::cout << std::right << std::setw(15) << std::setfill('_') << time << std::endl;
+	if (tiny)
+	{
+		raster.printPath();
+	}
 	raster.reset();
 
-	time = Dijkstra::findShortestPath(raster);
-	std::cout << "Dijkstra Algorithm" << std::endl;
-	std::cout << "Time (nano): " << time << std::endl;
-	std::cout << "Path: " << std::endl;
-	raster.printWayMap();
-
+	time = Dijkstra::findShortestPath_Table(raster, false);
+	std::cout << std::left << std::setw(32) << std::setfill(' ') << "Dijkstra Algorithm Table: ";
+	std::cout << std::right << std::setw(15) << std::setfill('_') << time << std::endl;
+	if (tiny)
+	{
+		raster.printPath();
+	}
 	raster.reset();
 
-	time = AStar::findShortestPath(raster);
-	std::cout << "A Star Algorithm" << std::endl;
-	std::cout << "Time (nano): " << time << std::endl;
-	std::cout << "Path: " << std::endl;
-	raster.printWayMap();
+	time = Dijkstra::findShortestPath_Heap(raster, false);
+	std::cout << std::left << std::setw(32) << std::setfill(' ') << "Dijkstra Algorithm Heap: ";
+	std::cout << std::right << std::setw(15) << std::setfill('_') << time << std::endl;
+	if (tiny)
+	{
+		raster.printPath();
+	}
+	raster.reset();
+
+	time = AStar::findShortestPath(raster, false);
+	std::cout << std::left << std::setw(32) << std::setfill(' ') << "A Star Algorithm: ";
+	std::cout << std::right << std::setw(15) << std::setfill('_') << time << std::endl;
+	if (tiny)
+	{
+		raster.printPath();
+	}
+	raster.reset();
+}
+
+
+void showStatistics(std::vector<TableLine>& lines)
+{
+	for (unsigned i_idx = 0; i_idx < lines.size(); ++i_idx)
+	{
+		std::cout << "n = " << std::right << std::setw(8) << std::setfill('_') << lines[i_idx].get_n() << "\t";
+		std::cout << "t(n) = " << std::right << std::setw(15) << std::setfill('_') << lines[i_idx].get_t_n() << "\t";
+		std::cout << "T(n) = " << std::right << std::setw(10) << std::setfill('_') << lines[i_idx].get_T_n() << "\t";
+		std::cout << "q = " << std::right << std::setw(10) << std::setfill('_') << lines[i_idx].get_q() << "\n";
+	}
 }
 
 
@@ -53,22 +84,25 @@ void startProgram()
 		std::cin >> choice;
 
 		Raster raster;
+		std::vector<TableLine> lines;
 
 		switch (choice)
 		{
 		case 1:
 			raster = DataGenerator::getFromStandardStream();
-			showAllPathsAndTimes(raster);
+			showAllSolutionsAndTimes(raster);
 			break;
 		case 2:
 			raster = DataGenerator::getFromFileStream();
-			showAllPathsAndTimes(raster);
+			showAllSolutionsAndTimes(raster);
 			break;
 		case 3:
-			/* rodo */
+			raster = DataGenerator::getRandomParameterized();
+			showAllSolutionsAndTimes(raster);
 			break;
 		case 4:
-			/* todo*/
+			lines = DataGenerator::generateStatistics();
+			showStatistics(lines);
 			break;
 		case 5:
 			exit(0);

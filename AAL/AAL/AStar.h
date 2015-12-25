@@ -2,7 +2,7 @@
 
 #include "Raster.h"
 #include "Timer.h"
-#include "BoolMatrix.h"
+#include "MyMatrix.h"
 #include <queue>
 #include <functional>
 
@@ -20,6 +20,13 @@ private:
 	*/
 	unsigned static calculateManhattanH(const Field& from, const Field& to);
 
+	/* Pseudoheuristic function, used to verify time complexity
+	 * @param {Field&}: begin field
+	 * @param {Field&}: end field
+	 * @returns {Field&}: calculated estimated length between them (which is always 0)
+	 */
+	unsigned static calculateNothing(const Field& from, const Field& to);
+
 	/* Class with overloaded operator() used by priority queue */
 	class CompareFields
 	{
@@ -34,8 +41,9 @@ private:
 public:
 	/* Find the shortest path using A star algorithm 
 	 * @param {Raster&} raster: data to find path and modify
+	 * @param {bool} timeComplexVerif: true if we want to verify time complexity
 	 * @returns {long long}: measured time
 	 */
-	static long long findShortestPath(Raster& raster);
+	static long long findShortestPath(Raster& raster, bool timeComplexVerif);
 };
 

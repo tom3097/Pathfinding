@@ -148,24 +148,27 @@
   <ItemGroup>
     <ClInclude Include="AStar.h" />
     <ClInclude Include="BellmanFord.h" />
-    <ClInclude Include="BoolMatrix.h" />
     <ClInclude Include="Coords.h" />
     <ClInclude Include="DataGenerator.h" />
     <ClInclude Include="Dijkstra.h" />
     <ClInclude Include="Field.h" />
+    <ClInclude Include="Heap.h" />
+    <ClInclude Include="MyMatrix.h" />
     <ClInclude Include="Raster.h" />
+    <ClInclude Include="TableLine.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AStar.cpp" />
     <ClCompile Include="BellmanFord.cpp" />
-    <ClCompile Include="BoolMatrix.cpp" />
     <ClCompile Include="Coords.cpp" />
     <ClCompile Include="DataGenerator.cpp" />
     <ClCompile Include="Dijkstra.cpp" />
     <ClCompile Include="Field.cpp" />
+    <ClCompile Include="Heap.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Raster.cpp" />
+    <ClCompile Include="TableLine.cpp" />
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

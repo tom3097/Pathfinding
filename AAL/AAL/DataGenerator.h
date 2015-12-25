@@ -1,50 +1,89 @@
 #pragma once
 
 #include "Raster.h"
-#include "BoolMatrix.h"
+#include "MyMatrix.h"
+#include "BellmanFord.h"
+#include "Dijkstra.h"
+#include "AStar.h"
+#include "TableLine.h"
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <cstdlib>
+#include <ctime>
+#include <algorithm>
+#include <cmath>
 
 class DataGenerator
 {
+public:
+	enum Algorithm
+	{
+		BELLMAN_FORD = 1, DIJKSTRA_TABLE, DIJKSTRA_HEAP, A_STAR,
+	};
+
+	enum FieldType
+	{
+		NOTHING = '0', BEGIN = '1', END = '2', WHITE = 'W', BLACK = 'B',
+	};
 private:
 	DataGenerator();
 	~DataGenerator();
-
-	/* Begin white field id */
-	static const char BEGIN = '1';
-	/* End white field id */
-	static const char END = '2';
-	/* White field id */
-	static const char WHITE = 'W';
-	/* Black field id */
-	static const char BLACK = 'B';
 
 	/* Create raster from vector with proper data
 	 * @param {std::vector<std::string>} lines: vector with string lines
 	 * @returns {Raster}: created raster
 	 */
 	static Raster createFromVector(std::vector<std::string>& lines);
+
+	/* Create parameterized random raster
+	 * @param {unsigned} M: number of rows
+	 * @param {unsigned} N: number of columns
+	 * @param {double} probability: probability of color white
+	 * @returns {Raster}: created raster
+	 */
+	static Raster createRandomParameterized(unsigned M, unsigned N, double probability);
+
+	/* Calculate average time for chosen algorithm
+	 * @param {unsigned} M: number of rows
+	 * @param {unsigned} N: number of columns
+	 * @param {Algorithm} algorithm
+	 * @returns {long long}: measured time
+	 */
+	static long long getAlgorithmAverageTime(unsigned M, unsigned N, Algorithm algorithm);
+
+	/* Calculate theoretical time for algorithm with O(n^2)
+	 * @param {unsigned} M: number of rows
+	 * @param {unsigned} N: number of columns
+	 * @returns {long long}: theoretical execution time
+	 */
+	static long long calculateTimeNN(unsigned M, unsigned N);
+
+	/* Calculate theoretical time for algorithm with O(n*log(n))
+	* @param {unsigned} M: number of rows
+	* @param {unsigned} N: number of columns
+	* @returns {long long}: theoretical execution time
+	*/
+	static long long calculateTimeNLogN(unsigned M, unsigned N);
 public:
-	/* Get data from file to create raster 
+	/* Create raster from data from file
 	 * @returns {Raster}: created raster
 	 */
 	static Raster getFromFileStream();
 
-	/* Get data from standard stream to create raster
+	/* Create raster from data from standard input stream
 	 * @returns {Raster}: created raster
 	 */
 	static Raster getFromStandardStream();
 
-	/* Get parameterized random raster
+	/* Create parameterized random raster
 	 * @returns {Raster}: created raster
 	 */
 	static Raster getRandomParameterized();
 
-	/* Get random raster 
-	 * @returns {Raster}: created raster
+	/* Generate statistic for chosen algorithm
+	 * @returns {std::vector<TableLine>}: vector with basic statistic informations for each iteration
 	 */
-	static Raster getRandom();
+	static std::vector<TableLine> generateStatistics();
 };
 

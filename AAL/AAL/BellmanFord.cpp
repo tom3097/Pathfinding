@@ -15,9 +15,9 @@ BellmanFord::~BellmanFord()
 void BellmanFord::prepare(Raster& raster)
 {
 	int max = raster.getM() * raster.getN() + 1;
-	for (int m_idx = 0; m_idx < raster.getM(); ++m_idx)
+	for (unsigned m_idx = 0; m_idx < raster.getM(); ++m_idx)
 	{
-		for (int n_idx = 0; n_idx < raster.getN(); ++n_idx)
+		for (unsigned n_idx = 0; n_idx < raster.getN(); ++n_idx)
 		{
 			raster.getField(m_idx, n_idx).updateGHF(max, 0);
 		}
@@ -26,7 +26,7 @@ void BellmanFord::prepare(Raster& raster)
 }
 
 
-long long BellmanFord::findShortestPath(Raster &raster)
+long long BellmanFord::findShortestPath(Raster &raster, bool timeComplexVerif)
 {
 	Timer timer;
 	long long executionTime = 0;
@@ -35,13 +35,13 @@ long long BellmanFord::findShortestPath(Raster &raster)
 
 	bool finish;
 
-	for (int i_idx = 0; i_idx < raster.getN() * raster.getM() - 1; ++i_idx)
+	for (unsigned i_idx = 0; i_idx < raster.getN() * raster.getM() - 1; ++i_idx)
 	{
 		finish = true;
 
-		for (int m_idx = 0; m_idx < raster.getM(); ++m_idx)
+		for (unsigned m_idx = 0; m_idx < raster.getM(); ++m_idx)
 		{
-			for (int n_idx = 0; n_idx < raster.getN(); ++n_idx)
+			for (unsigned n_idx = 0; n_idx < raster.getN(); ++n_idx)
 			{
 				std::reference_wrapper<Field> curr_field = raster.getField(m_idx, n_idx);
 				if (!curr_field.get().getAllowed())
@@ -52,9 +52,9 @@ long long BellmanFord::findShortestPath(Raster &raster)
 
 				std::vector<Coords> neighbours;
 				if (yF - 1 >= 0) neighbours.push_back(Coords(xF, yF - 1));
-				if (yF + 1 < raster.getN()) neighbours.push_back(Coords(xF, yF + 1));
+				if (yF + 1 < (int)raster.getN()) neighbours.push_back(Coords(xF, yF + 1));
 				if (xF - 1 >= 0) neighbours.push_back(Coords(xF - 1, yF));
-				if (xF + 1 < raster.getM()) neighbours.push_back(Coords(xF + 1, yF));
+				if (xF + 1 < (int)raster.getM()) neighbours.push_back(Coords(xF + 1, yF));
 
 				for (Coords ngb : neighbours)
 				{
@@ -72,7 +72,10 @@ long long BellmanFord::findShortestPath(Raster &raster)
 			}
 		}
 		if (finish)
-			break;
+		{
+			if (!timeComplexVerif)
+				break;
+		}
 	}
 
 	if (raster.getEnd().getParent() != nullptr)

@@ -39,7 +39,13 @@
     <ClInclude Include="DataGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BoolMatrix.h">
+    <ClInclude Include="MyMatrix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Heap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TableLine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -71,7 +77,10 @@
     <ClCompile Include="DataGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BoolMatrix.cpp">
+    <ClCompile Include="Heap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TableLine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
