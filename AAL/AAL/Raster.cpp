@@ -124,12 +124,18 @@ void Raster::printPath()
 
 	int** map = MyMatrix<int>::createMatrix(M, N, 0);
 
+	int counter = 0;
+
 	Field *f = &getEnd();
 	while (*f != getBegin()) 
 	{
 		map[f->getCoords().getX()][f->getCoords().getY()] = 1;
 		f = f->getParent();
+
+		++counter;
 	}
+
+	--counter;
 
 	map[getBegin().getCoords().getX()][getBegin().getCoords().getY()] = 2;
 	map[getEnd().getCoords().getX()][getEnd().getCoords().getY()] = 2;
@@ -144,6 +150,7 @@ void Raster::printPath()
 		}
 		std::cout << std::endl;
 	}
+	std::cout << "Distance: " << counter << std::endl << std::endl;
 
 	MyMatrix<int>::deleteMatrix(M, map);
 }

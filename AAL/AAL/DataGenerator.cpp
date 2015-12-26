@@ -169,13 +169,41 @@ Raster DataGenerator::createRandomParameterized(unsigned M, unsigned N, double p
 		}
 	}
 
-	unsigned beginIdx = rand() % whiteCollection.size();
+	unsigned beginIdx = 0;
+	unsigned endIdx = 1;
+	unsigned distance = std::abs(whiteCollection[beginIdx].getX() - whiteCollection[endIdx].getX()) 
+		+ std::abs(whiteCollection[beginIdx].getY() - whiteCollection[endIdx].getY());
+
+	for (unsigned idx = 2; idx < whiteCollection.size(); ++idx)
+	{
+		unsigned newEndDistance = std::abs(whiteCollection[beginIdx].getX() - whiteCollection[idx].getX())
+			+ std::abs(whiteCollection[beginIdx].getY() - whiteCollection[idx].getY());
+		unsigned newBeginDistance = std::abs(whiteCollection[idx].getX() - whiteCollection[endIdx].getX())
+			+ std::abs(whiteCollection[idx].getY() - whiteCollection[endIdx].getY());
+
+		if (newEndDistance > distance && newBeginDistance <= distance)
+		{
+			endIdx = idx;
+			distance = newEndDistance;
+		}
+		else if (newEndDistance <= distance && newBeginDistance > distance)
+		{
+			beginIdx = idx;
+			distance = newBeginDistance;
+		}
+		else if (newEndDistance > distance && newBeginDistance > distance && newEndDistance >= newBeginDistance)
+		{
+			endIdx = idx;
+			distance = newEndDistance;
+		}
+		else if (newEndDistance > distance && newBeginDistance > distance && newEndDistance < newBeginDistance)
+		{
+			beginIdx = idx;
+			distance = newBeginDistance;
+		}
+	}
+
 	Coords begin = whiteCollection[beginIdx];
-
-	std::swap(whiteCollection[beginIdx], whiteCollection[whiteCollection.size() - 1]);
-	whiteCollection.pop_back();
-
-	unsigned endIdx = rand() % whiteCollection.size();
 	Coords end = whiteCollection[endIdx];
 
 	Raster raster(M, N, matrix, begin, end);
