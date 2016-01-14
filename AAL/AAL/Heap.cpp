@@ -42,6 +42,8 @@ void Heap::push(FieldIter& begin, FieldIter& end)
 		(*i_iter) = (*j_iter);
 		i_iter->get().setHeapIdx(std::distance(begin, i_iter));
 		i_iter = j_iter;
+		int iter_part = (std::distance(begin, j_iter) - 1) / 2;
+		if (iter_part < 0) break;
 		j_iter = begin + ((std::distance(begin, j_iter) - 1) / 2);
 	}
 
@@ -72,6 +74,8 @@ void Heap::pop(FieldIter& begin, FieldIter& end)
 		(*i_iter) = (*j_iter);
 		i_iter->get().setHeapIdx(std::distance(begin, i_iter));
 		i_iter = j_iter;
+		int iter_part = 2 * std::distance(begin, j_iter) + 1;
+		if (iter_part >= std::distance(begin, end) - 1) break;
 		j_iter = begin + (2 * std::distance(begin, j_iter) + 1);
 	}
 

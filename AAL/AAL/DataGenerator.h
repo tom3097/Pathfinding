@@ -24,7 +24,7 @@ public:
 
 	enum FieldType
 	{
-		NOTHING = '0', BEGIN = '1', END = '2', WHITE = 'W', BLACK = 'B',
+		NOTHING = '0', BEGIN = '1', END = '2', WHITE = '.', BLACK = '$',
 	};
 private:
 	DataGenerator();
