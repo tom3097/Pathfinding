@@ -96,6 +96,7 @@ Wszystkie wykorzystywane w algorytmie strukury danych zaimplementowalem sam. Sa 
 * struktor reprezentujaca linie w tablece z wynikami
 
 5 ---Informacje o funkcjonalnej dekompozycji programu na moduly---
+
 Stworzone pliki naglowkowe:
 * AStar.h - zawiera klase ze statyczna metoda do rozwiazywania problemu najkrotszej sciezki za pomoca
 algorytmu A* oraz inne pomocnicze metody
@@ -125,6 +126,7 @@ czarne oraz informacjew o polu poczatkowym oraz koncowym.
 informacje o wielkosci rozwiazywanego problemum, czasie wykonania, teoretycznym, asymptotycznym czasie
 oraz wartosc wspolczynnika zgodnosci oceny teoretycznej z pomiarem czasu
 * Timer.h - zawiera klase Timer, ktora wykorzystywana jest do pomiaru czasu.
+
 Stworzone pliki implementacyjne:
 * AStar.cpp - implementacja klasy AStar
 * BellmanFord.cpp - implementacja klasy BellmanFord
