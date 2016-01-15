@@ -298,12 +298,18 @@ Raster DataGenerator::getFromStandardStream()
 
 Raster DataGenerator::getFromFileStream()
 {
-	std::ifstream reader;
 	std::string path;
 
 	std::cout << "Path = ";
 	std::cin >> path;
 
+	return getFromFileStream(path);
+}
+
+
+Raster DataGenerator::getFromFileStream(std::string path)
+{
+	std::ifstream reader;
 	reader.open(path);
 	if (!reader.is_open())
 		return Raster();
@@ -330,6 +336,19 @@ Raster DataGenerator::getFromFileStream()
 }
 
 
+Raster DataGenerator::getRandomParameterized(unsigned M, unsigned N, double probability)
+{
+	std::cout << M << std::endl;
+	if (M <= 0 || N <= 0 || probability > 1)
+	{
+		return Raster();
+	}
+
+	Raster raster = DataGenerator::createRandomParameterized(M, N, probability);
+	return raster;
+}
+
+
 Raster DataGenerator::getRandomParameterized()
 {
 	unsigned M, N;
@@ -347,61 +366,32 @@ Raster DataGenerator::getRandomParameterized()
 	std::cout << "Probability of white field = ";
 	std::cin >> probability;
 
-	if (M <= 0 || N <= 0 || probability > 1)
-	{
-		return Raster();
-	}
-
-	Raster raster = DataGenerator::createRandomParameterized(M, N, probability);
-	return raster;
+	return getRandomParameterized(M, N, probability);
 }
 
 
-std::vector<TableLine> DataGenerator::generateStatistics()
+std::vector<TableLine> DataGenerator::generateStatistics(Algorithm algorithm, unsigned M, unsigned N, unsigned step)
 {
-	int chosen;
-	unsigned M, N, step;
-	std::vector<TableLine> lines;
 	std::function<long long(unsigned, unsigned)> calculateT_n;
-	Algorithm algorithm;
+	std::vector<TableLine> lines;
 
-	std::cout << "Choose algorithm: \n";
-	std::cout << "1 - Bellman-Ford\n2 - Dijkstra (Table)\n3 - Dijkstra (Heap)\n4 - A Star\n";
-
-	std::cin >> chosen;
-	if (chosen < 1 || chosen > 4)
-		return lines;
-
-	switch (chosen)
+	switch (algorithm)
 	{
 	case BELLMAN_FORD:
-		algorithm = BELLMAN_FORD;
 		calculateT_n = calculateTimeNN;
 		break;
 	case DIJKSTRA_TABLE:
-		algorithm = DIJKSTRA_TABLE;
 		calculateT_n = calculateTimeNN;
 		break;
 	case DIJKSTRA_HEAP:
-		algorithm = DIJKSTRA_HEAP;
 		calculateT_n = calculateTimeNLogN;
 		break;
 	case A_STAR:
-		algorithm = A_STAR;
 		calculateT_n = calculateTimeNLogN;
 		break;
 	default:
 		return lines;
 	}
-
-	std::cout << "M = ";
-	std::cin >> M;
-
-	std::cout << "N = ";
-	std::cin >> N;
-
-	std::cout << "step = ";
-	std::cin >> step;
 
 	for (int i_idx = 0; i_idx < 11; ++i_idx)
 	{
@@ -426,6 +416,53 @@ std::vector<TableLine> DataGenerator::generateStatistics()
 		double rest_q_part = lines[i_idx].get_t_n() / ((double)lines[i_idx].get_T_n());
 		lines[i_idx].set_q(median_q_part * rest_q_part);
 	}
+
+	return lines;
+}
+
+
+std::vector<TableLine> DataGenerator::generateStatistics()
+{
+	int chosen;
+	unsigned M, N, step;
+	std::vector<TableLine> lines;
+	Algorithm algorithm;
+
+	std::cout << "Choose algorithm: \n";
+	std::cout << "1 - Bellman-Ford\n2 - Dijkstra (Table)\n3 - Dijkstra (Heap)\n4 - A Star\n";
+
+	std::cin >> chosen;
+	if (chosen < 1 || chosen > 4)
+		return lines;
+
+	std::cout << "M = ";
+	std::cin >> M;
+
+	std::cout << "N = ";
+	std::cin >> N;
+
+	std::cout << "step = ";
+	std::cin >> step;
+
+	switch (chosen)
+	{
+	case BELLMAN_FORD:
+		algorithm = BELLMAN_FORD;
+		break;
+	case DIJKSTRA_TABLE:
+		algorithm = DIJKSTRA_TABLE;
+		break;
+	case DIJKSTRA_HEAP:
+		algorithm = DIJKSTRA_HEAP;
+		break;
+	case A_STAR:
+		algorithm = A_STAR;
+		break;
+	default:
+		return lines;
+	}
+
+	lines = generateStatistics(algorithm, M, N, step);
 
 	return lines;
 }

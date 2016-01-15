@@ -71,6 +71,12 @@ public:
 	 */
 	static Raster getFromFileStream();
 
+	/* Create raster from data from file
+	 * @param {std::string} path: path to file
+	 * @returns {Raster}: created raster
+	 */
+	static Raster getFromFileStream(std::string path);
+
 	/* Create raster from data from standard input stream
 	 * @returns {Raster}: created raster
 	 */
@@ -81,9 +87,26 @@ public:
 	 */
 	static Raster getRandomParameterized();
 
+	/* Create parameterized random raster
+	 * @param {unsigned}: M
+	 * @param {unsigned} N: number of columns
+	 * @param {double} probability: probability of white field
+	 * @returns {Raster}: created raster
+	 */
+	static Raster getRandomParameterized(unsigned M, unsigned N, double probability);
+
 	/* Generate statistic for chosen algorithm
 	 * @returns {std::vector<TableLine>}: vector with basic statistic informations for each iteration
 	 */
 	static std::vector<TableLine> generateStatistics();
+
+	/* Generate statistic for chosen algorithm
+	 * @param {Algorithm} algorithm: chosen algorithm
+	 * @param {unsigned} M: initial number of rows
+	 * @param {unsigned} N: initial number of columns
+	 * @param {unsigned} step: number to be added to columns and rows when increasing dimensions
+	 * @returns {std::vector<TableLine>}: vector with basic statistic informations for each iteration
+	 */
+	static std::vector<TableLine> generateStatistics(Algorithm algorithm, unsigned M, unsigned N, unsigned step);
 };
 

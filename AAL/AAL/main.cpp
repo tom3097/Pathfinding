@@ -1,5 +1,6 @@
 #include <iomanip>
 #include "DataGenerator.h"
+#include <cstdlib>
 
 #define MAX_WIDTH 33
 #define MAX_HEIGHT 23
@@ -111,9 +112,223 @@ void startProgram()
 }
 
 
-int main() 
+void info()
+{
+	std::cout << "\n\nUsage:\n\n:"
+		<< "If you want to read data from file:\n"
+		<< "[-a/-dt/-dh/-bf] -f path\n\n"
+		<< "If you want to generate parameterized data:\n"
+		<< "[-a/-dt/-dh/-b] -g M N probability\n\n"
+		<< "If you want to get statistics:\n"
+		<< "[-a/-dt/-dh/-b] -s M N step \n\n"
+		<< "where -a: A* -dt: DijkstraTable -dh: DijkstraHeap -bf: Bellman-Ford\n\n";
+}
+
+
+
+
+int main(int argc, char **argv) 
 {	
-	startProgram();
+	/* Przypadek uruchamiania bez wybranej opcji */
+	if(argc == 1)
+		startProgram();
+
+	/* Przypadek wczytywania z pliku */
+	if (argc == 4)
+	{
+		std::string option_1(argv[1]);
+		std::string option_2(argv[2]);
+		std::string option_3(argv[3]);
+		if (option_2 == "-f")
+		{
+			Raster raster = DataGenerator::getFromFileStream(option_3);
+			if (option_1 == "-a")
+			{
+				long long time = AStar::findShortestPath(raster, false);
+				std::cout << std::left << std::setw(32) << std::setfill(' ') << "A Star Algorithm: ";
+				std::cout << std::right << std::setw(15) << std::setfill('_') << time << std::endl;
+				raster.print();
+				std::cout << std::endl;
+				raster.printPath();
+				exit(0);
+			}
+			else if (option_1 == "-dh")
+			{
+				long long time = Dijkstra::findShortestPath_Heap(raster, false);
+				std::cout << std::left << std::setw(32) << std::setfill(' ') << "Dijkstra Algorithm Heap: ";
+				std::cout << std::right << std::setw(15) << std::setfill('_') << time << std::endl;
+				raster.print();
+				std::cout << std::endl;
+				raster.printPath();
+				exit(0);
+			}
+			else if (option_1 == "-dt")
+			{
+				long long time = Dijkstra::findShortestPath_Table(raster, false);
+				std::cout << std::left << std::setw(32) << std::setfill(' ') << "Dijkstra Algorithm Table: ";
+				std::cout << std::right << std::setw(15) << std::setfill('_') << time << std::endl;
+				raster.print();
+				std::cout << std::endl;
+				raster.printPath();
+				exit(0);
+			}
+			else if (option_1 == "-bf")
+			{
+				long long time = BellmanFord::findShortestPath(raster, false);
+				std::cout << std::left << std::setw(32) << std::setfill(' ') << "Bellman-Ford Algorithm: ";
+				std::cout << std::right << std::setw(15) << std::setfill('_') << time << std::endl;
+				raster.print();
+				std::cout << std::endl;
+				raster.printPath();
+				exit(0);
+			}
+			else
+			{
+				info();
+				exit(-1);
+			}
+		}
+		else
+		{
+			info();
+			exit(-1);
+		}
+	}
+
+	/* Przypadek generowania losowego parametryzowanego rastra */
+	if (argc == 6 && std::string(argv[2]) == "-g")
+	{
+		std::string option_1(argv[1]);
+		std::string option_3(argv[3]);
+		std::string option_4(argv[4]);
+		std::string option_5(argv[5]);
+
+		unsigned M;
+		unsigned N;
+		double probability;
+
+		try
+		{
+			M = (unsigned)std::stoi(option_3);
+			N = (unsigned)std::stoi(option_4);
+			probability = std::stod(option_5);
+		}
+		catch (...)
+		{
+			info();
+			exit(-1);
+		}
+
+		Raster raster = DataGenerator::getRandomParameterized(M, N, probability);
+		if (option_1 == "-a")
+		{
+			long long time = AStar::findShortestPath(raster, false);
+			std::cout << std::left << std::setw(32) << std::setfill(' ') << "A Star Algorithm: ";
+			std::cout << std::right << std::setw(15) << std::setfill('_') << time << std::endl;
+			raster.print();
+			std::cout << std::endl;
+			raster.printPath();
+			exit(0);
+		}
+		else if (option_1 == "-dh")
+		{
+			long long time = Dijkstra::findShortestPath_Heap(raster, false);
+			std::cout << std::left << std::setw(32) << std::setfill(' ') << "Dijkstra Algorithm Heap: ";
+			std::cout << std::right << std::setw(15) << std::setfill('_') << time << std::endl;
+			raster.print();
+			std::cout << std::endl;
+			raster.printPath();
+			exit(0);
+		}
+		else if (option_1 == "-dt")
+		{
+			long long time = Dijkstra::findShortestPath_Table(raster, false);
+			std::cout << std::left << std::setw(32) << std::setfill(' ') << "Dijkstra Algorithm Table: ";
+			std::cout << std::right << std::setw(15) << std::setfill('_') << time << std::endl;
+			raster.print();
+			std::cout << std::endl;
+			raster.printPath();
+			exit(0);
+		}
+		else if (option_1 == "-bf")
+		{
+			long long time = BellmanFord::findShortestPath(raster, false);
+			std::cout << std::left << std::setw(32) << std::setfill(' ') << "Bellman-Ford Algorithm: ";
+			std::cout << std::right << std::setw(15) << std::setfill('_') << time << std::endl;
+			raster.print();
+			std::cout << std::endl;
+			raster.printPath();
+			exit(0);
+		}
+		else
+		{
+			info();
+			exit(-1);
+		}
+	}
+
+	/* Przypadek generowania tabelki z czasami wykonania */
+	if (argc == 6 && std::string(argv[2]) == "-t")
+	{
+		std::string option_1(argv[1]);
+		std::string option_3(argv[3]);
+		std::string option_4(argv[4]);
+		std::string option_5(argv[5]);
+
+		unsigned M;
+		unsigned N;
+		unsigned step;
+
+		try
+		{
+			M = (unsigned)std::stoi(option_3);
+			N = (unsigned)std::stoi(option_4);
+			step = (unsigned)std::stod(option_5);
+		}
+		catch (...)
+		{
+			info();
+			exit(-1);
+		}
+
+		if (option_1 == "-a")
+		{
+			std::vector<TableLine> lines = DataGenerator::generateStatistics(DataGenerator::Algorithm::A_STAR, M, N, step);
+			showStatistics(lines);
+			std::cout << std::endl;
+			exit(0);
+		}
+		else if (option_1 == "-dh")
+		{
+			std::vector<TableLine> lines = DataGenerator::generateStatistics(DataGenerator::Algorithm::DIJKSTRA_HEAP, M, N, step);
+			showStatistics(lines);
+			std::cout << std::endl;
+			exit(0);
+		}
+		else if (option_1 == "-dt")
+		{
+			std::vector<TableLine> lines = DataGenerator::generateStatistics(DataGenerator::Algorithm::DIJKSTRA_TABLE, M, N, step);
+			showStatistics(lines);
+			std::cout << std::endl;
+			exit(0);
+		}
+		else if (option_1 == "-bf")
+		{
+			std::vector<TableLine> lines = DataGenerator::generateStatistics(DataGenerator::Algorithm::BELLMAN_FORD, M, N, step);
+			showStatistics(lines);
+			std::cout << std::endl;
+			exit(0);
+		}
+		else
+		{
+			info();
+			exit(-1);
+		}
+	}
+
+	info();
+	exit(-1);
+
 	return 0;
 }
 

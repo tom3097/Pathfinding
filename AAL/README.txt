@@ -8,8 +8,30 @@ Ponadto przy generacji danych nalezy zwrocic uwage na to, aby z kazdego pola bia
 dostac do dowolnego innego pola o tym kolorze. Ponadto nalezy porownac czas obliczen i wyniki roznych metod.
 
 2 ---Uruchamianie---:
-Program uruchamiany jest bez zadnych opcji czy tez parametrow. Po uruchomieniu programu wyswietla 
-sie konsola z instrukcja. W kolejnych krokach nalezy postepowac zgodnie z nia.
+Program moze byc uruchomiony na dwie mozliwosci.
+
+Pierwsza z nich to uruchomienie programu bez zadnych opcji ani parametrow (AAL.exe). Gdy uzytkownik wybierze ta opcje
+na ekranie konsoli wyswietlanejest menu glowne z mozliwymi do wyboru opcjami. Uruchomione zostaje cos w stylu
+konsolowego GUI.
+
+Druga z nich to uruchomienie programu z opcjami i parametrami.
+Dozwolone sa nastepujace polecenia aktywacji programu:
+
+AAL.exe [-a/-dt/-dh/-bf] -f path
+Program wyznacza najkrotsza sciezke dla rastra wczytanego z pliku, o sciezce path. Wyznaczanie tej sciezki
+odbywa sie za pomoca jednego z 4 algorytmow (-a: A*, -dt: Dijkstra Table, -dh: Dijkstra Heap, -bf: Bellman-Ford).
+
+AAL.exe [-a/-dt/-dh/-bf] -g M N probability
+Program wyznacza najkrotsza sciezke dla rastra wygenerowanego automatycznie, przy czym M to liczba wierszy rastra,
+N to liczba kolumn rastra, natomiast probability to liczba od 0 do 1 okreslajaca prawdopodobienstwo czy tez 
+stosunek pol bialych - dozwolonych, do wszystkich pol rastra. Wyznaczanie tej sciezki odbywa sie za pomoca 
+jednego z 4 algorytmow (-a: A*, -dt: Dijkstra Table, -dh: Dijkstra Heap, -bf: Bellman-Ford).
+
+AAL.exe [-a/-dt/-dh/-bf] -t initM initN step
+Program generuje tabelke ze statystykami dla okreslonego typu algorytmu (-a: A*, -dt: Dijkstra Table, -dh: Dijkstra Heap, 
+-bf: Bellman-Ford). Parametry initM oraz initN okreslaja wymiary rastra poczatkowego, natomiast step jest to wartosc jaka jest dodawana
+do obu wymiarow rastra przy jego zwiekszaniu.
+
 
 3 ---Opis konwencji dotyczacych danych wejsciowych i prezentacji wynikow---
 Itnieja 4 mozliwe sposoby dzialania aplikacji.
@@ -96,7 +118,6 @@ Wszystkie wykorzystywane w algorytmie strukury danych zaimplementowalem sam. Sa 
 * struktor reprezentujaca linie w tablece z wynikami
 
 5 ---Informacje o funkcjonalnej dekompozycji programu na moduly---
-
 Stworzone pliki naglowkowe:
 * AStar.h - zawiera klase ze statyczna metoda do rozwiazywania problemu najkrotszej sciezki za pomoca
 algorytmu A* oraz inne pomocnicze metody
@@ -126,7 +147,6 @@ czarne oraz informacjew o polu poczatkowym oraz koncowym.
 informacje o wielkosci rozwiazywanego problemum, czasie wykonania, teoretycznym, asymptotycznym czasie
 oraz wartosc wspolczynnika zgodnosci oceny teoretycznej z pomiarem czasu
 * Timer.h - zawiera klase Timer, ktora wykorzystywana jest do pomiaru czasu.
-
 Stworzone pliki implementacyjne:
 * AStar.cpp - implementacja klasy AStar
 * BellmanFord.cpp - implementacja klasy BellmanFord
