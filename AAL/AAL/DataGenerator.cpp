@@ -219,7 +219,7 @@ long long DataGenerator::getAlgorithmAverageTime(unsigned M, unsigned N, DataGen
 {
 	srand((unsigned)time(nullptr));
 
-	std::function<long long(Raster, bool)> findShortestPath;
+	std::function<long long(Raster&, bool)> findShortestPath;
 
 	switch (algorithm)
 	{

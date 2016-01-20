@@ -27,19 +27,19 @@ public:
 	 * @param {std::vector<std::reference_wrapper>::iterator}: first element to make the heap from
 	 * @param {std::vector<std::reference_wrapper>::iterator}: element after last to make the heap from
 	 */
-	static void make(FieldIter& begin, FieldIter& end);
+	static void make(FieldIter begin, FieldIter end);
 
 	/* Inserts the element at the position last-1 into min heapdefined by the range [begin, end-1).
 	 * @param {std::vector<std::reference_wrapper>::iterator}: first element at the heap
 	 * @param {std::vector<std::reference_wrapper>::iterator}: element after element to insert
 	 */
-	static void push(FieldIter& begin, FieldIter& end);
+	static void push(FieldIter begin, FieldIter end);
 	
 	/* Swaps the value in position begin and the value in the position end-1 and makes
 	 * the subrange [begin, end-1) into min heap
 	 * @param {std::vector<std::reference_wrapper>::iterator}: first element at the heap
 	 * @param {std::vector<std::reference_wrapper>::iterator}: element after last element at the heap
 	 */
-	static void pop(FieldIter& begin, FieldIter& end);
+	static void pop(FieldIter begin, FieldIter end);
 };
 

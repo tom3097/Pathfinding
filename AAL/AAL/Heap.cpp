@@ -18,7 +18,7 @@ bool Heap::CompareFields::operator() (const Field& field1, const Field& field2)
 }
 
 
-void Heap::make(FieldIter& begin, FieldIter& end)
+void Heap::make(FieldIter begin, FieldIter end)
 {
 	std::make_heap(begin, end, Heap::CompareFields());
 	unsigned idx = 0;
@@ -30,7 +30,7 @@ void Heap::make(FieldIter& begin, FieldIter& end)
 }
 
 
-void Heap::push(FieldIter& begin, FieldIter& end)
+void Heap::push(FieldIter begin, FieldIter end)
 {
 	FieldIter i_iter = end - 1;
 	FieldIter j_iter = begin + ((std::distance(begin, i_iter) - 1) / 2);
@@ -52,7 +52,7 @@ void Heap::push(FieldIter& begin, FieldIter& end)
 }
 
 
-void Heap::pop(FieldIter& begin, FieldIter& end)
+void Heap::pop(FieldIter begin, FieldIter end)
 {
 	if (std::distance(begin, end) == 1)
 		return;
