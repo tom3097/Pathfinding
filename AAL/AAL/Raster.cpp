@@ -21,7 +21,7 @@ Raster::Raster(): M(2), N(2), begin(Coords(0,0)), end(Coords(1,1)), pathFound(fa
 	}
 }
 
-Raster::Raster(int _M, int _N, bool **_array, Coords _begin, Coords _end) : M(_M), N(_N), begin(_begin), end(_end), pathFound(false)
+Raster::Raster(unsigned _M, unsigned _N, bool **_array, Coords _begin, Coords _end) : M(_M), N(_N), begin(_begin), end(_end), pathFound(false)
 {
 	matrix.reserve(M);
 	std::vector<Field> line(N, Field());
@@ -90,13 +90,13 @@ Field& Raster::getEnd()
 }
 
 
-size_t Raster::getM() 
+unsigned Raster::getM() 
 { 
 	return M;
 }
 
 
-size_t Raster::getN() 
+unsigned Raster::getN() 
 { 
 	return N; 
 }

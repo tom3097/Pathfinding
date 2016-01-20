@@ -11,10 +11,10 @@ class Raster {
 	typedef std::vector<std::vector<Field> > Matrix;
 
 	/* Number of rows */
-	size_t M;
+	unsigned M;
 
 	/* Number of columns */
-	size_t N;
+	unsigned N;
 
 	/* Matrix */
 	Matrix matrix;
@@ -29,7 +29,7 @@ class Raster {
 	bool pathFound ;
 public:
 	Raster();
-	Raster(int _M, int _N, bool **_array, Coords _begin, Coords _end);
+	Raster(unsigned _M, unsigned _N, bool **_array, Coords _begin, Coords _end);
 	~Raster();
 
 	/* Reset all fields in matrix */
@@ -63,14 +63,14 @@ public:
 	Field& getEnd();
 
 	/* Get number of rows
-	 * @returns {size_t}: number of rows
+	 * @returns {unsigned}: number of rows
 	 */
-	size_t getM();
+	unsigned getM();
 
 	/* Get number of columns
-	* @returns {size_t}: number of columns
+	* @returns {unsigned}: number of columns
 	*/
-	size_t getN();
+	unsigned getN();
 
 	/* Print map without path */
 	void print();

@@ -18,38 +18,50 @@ void showAllSolutionsAndTimes(Raster& raster)
 	}
 
 	time = BellmanFord::findShortestPath(raster, false);
-	std::cout << std::left << std::setw(32) << std::setfill(' ') << "Bellman-Ford Algorithm: ";
-	std::cout << std::right << std::setw(15) << std::setfill('_') << time << std::endl;
+	std::cout << "Bellman-Ford Algorithm:\n";
 	if (tiny)
 	{
 		raster.printPath();
+	}
+	else
+	{
+		std::cout << "Too big to draw.\n";
 	}
 	raster.reset();
 
 	time = Dijkstra::findShortestPath_Table(raster, false);
-	std::cout << std::left << std::setw(32) << std::setfill(' ') << "Dijkstra Algorithm Table: ";
-	std::cout << std::right << std::setw(15) << std::setfill('_') << time << std::endl;
+	std::cout << "Dijkstra Algorithm Table:\n";
 	if (tiny)
 	{
 		raster.printPath();
+	}
+	else
+	{
+		std::cout << "Too big to draw.\n";
 	}
 	raster.reset();
 
 	time = Dijkstra::findShortestPath_Heap(raster, false);
-	std::cout << std::left << std::setw(32) << std::setfill(' ') << "Dijkstra Algorithm Heap: ";
-	std::cout << std::right << std::setw(15) << std::setfill('_') << time << std::endl;
+	std::cout << "Dijkstra Algorithm Heap:\n";
 	if (tiny)
 	{
 		raster.printPath();
 	}
+	else
+	{
+		std::cout << "Too big to draw.\n";
+	}
 	raster.reset();
 
 	time = AStar::findShortestPath(raster, false);
-	std::cout << std::left << std::setw(32) << std::setfill(' ') << "A Star Algorithm: ";
-	std::cout << std::right << std::setw(15) << std::setfill('_') << time << std::endl;
+	std::cout << "A Star Algorithm:\n";
 	if (tiny)
 	{
 		raster.printPath();
+	}
+	else
+	{
+		std::cout << "Too big to draw.\n";
 	}
 	raster.reset();
 }
@@ -129,64 +141,52 @@ void info()
 
 int main(int argc, char **argv) 
 {	
-	/* Przypadek uruchamiania bez wybranej opcji */
+	/* Start program without any args */
 	if(argc == 1)
 		startProgram();
 
-	/* Przypadek wczytywania z pliku */
-	if (argc == 4)
+	/* Read from file */
+	if (argc == 4 && std::string(argv[2]) == "-f")
 	{
 		std::string option_1(argv[1]);
-		std::string option_2(argv[2]);
 		std::string option_3(argv[3]);
-		if (option_2 == "-f")
+
+		Raster raster = DataGenerator::getFromFileStream(option_3);
+		if (option_1 == "-a")
 		{
-			Raster raster = DataGenerator::getFromFileStream(option_3);
-			if (option_1 == "-a")
-			{
-				long long time = AStar::findShortestPath(raster, false);
-				std::cout << std::left << std::setw(32) << std::setfill(' ') << "A Star Algorithm: ";
-				std::cout << std::right << std::setw(15) << std::setfill('_') << time << std::endl;
-				raster.print();
-				std::cout << std::endl;
-				raster.printPath();
-				exit(0);
-			}
-			else if (option_1 == "-dh")
-			{
-				long long time = Dijkstra::findShortestPath_Heap(raster, false);
-				std::cout << std::left << std::setw(32) << std::setfill(' ') << "Dijkstra Algorithm Heap: ";
-				std::cout << std::right << std::setw(15) << std::setfill('_') << time << std::endl;
-				raster.print();
-				std::cout << std::endl;
-				raster.printPath();
-				exit(0);
-			}
-			else if (option_1 == "-dt")
-			{
-				long long time = Dijkstra::findShortestPath_Table(raster, false);
-				std::cout << std::left << std::setw(32) << std::setfill(' ') << "Dijkstra Algorithm Table: ";
-				std::cout << std::right << std::setw(15) << std::setfill('_') << time << std::endl;
-				raster.print();
-				std::cout << std::endl;
-				raster.printPath();
-				exit(0);
-			}
-			else if (option_1 == "-bf")
-			{
-				long long time = BellmanFord::findShortestPath(raster, false);
-				std::cout << std::left << std::setw(32) << std::setfill(' ') << "Bellman-Ford Algorithm: ";
-				std::cout << std::right << std::setw(15) << std::setfill('_') << time << std::endl;
-				raster.print();
-				std::cout << std::endl;
-				raster.printPath();
-				exit(0);
-			}
-			else
-			{
-				info();
-				exit(-1);
-			}
+			long long time = AStar::findShortestPath(raster, false);
+			std::cout << "A Star Algorithm:\n";
+			raster.print();
+			std::cout << std::endl;
+			raster.printPath();
+			exit(0);
+		}
+		else if (option_1 == "-dh")
+		{
+			long long time = Dijkstra::findShortestPath_Heap(raster, false);
+			std::cout << "Dijkstra Algorithm Heap:\n";
+			raster.print();
+			std::cout << std::endl;
+			raster.printPath();
+			exit(0);
+		}
+		else if (option_1 == "-dt")
+		{
+			long long time = Dijkstra::findShortestPath_Table(raster, false);
+			std::cout << "Dijkstra Algorithm Table:\n";
+			raster.print();
+			std::cout << std::endl;
+			raster.printPath();
+			exit(0);
+		}
+		else if (option_1 == "-bf")
+		{
+			long long time = BellmanFord::findShortestPath(raster, false);
+			std::cout << "Bellman-Ford Algorithm:\n";
+			raster.print();
+			std::cout << std::endl;
+			raster.printPath();
+			exit(0);
 		}
 		else
 		{
@@ -195,7 +195,7 @@ int main(int argc, char **argv)
 		}
 	}
 
-	/* Przypadek generowania losowego parametryzowanego rastra */
+	/* Generate random parameterized raster */
 	if (argc == 6 && std::string(argv[2]) == "-g")
 	{
 		std::string option_1(argv[1]);
@@ -223,8 +223,7 @@ int main(int argc, char **argv)
 		if (option_1 == "-a")
 		{
 			long long time = AStar::findShortestPath(raster, false);
-			std::cout << std::left << std::setw(32) << std::setfill(' ') << "A Star Algorithm: ";
-			std::cout << std::right << std::setw(15) << std::setfill('_') << time << std::endl;
+			std::cout << "A Star Algorithm:\n";
 			raster.print();
 			std::cout << std::endl;
 			raster.printPath();
@@ -233,8 +232,7 @@ int main(int argc, char **argv)
 		else if (option_1 == "-dh")
 		{
 			long long time = Dijkstra::findShortestPath_Heap(raster, false);
-			std::cout << std::left << std::setw(32) << std::setfill(' ') << "Dijkstra Algorithm Heap: ";
-			std::cout << std::right << std::setw(15) << std::setfill('_') << time << std::endl;
+			std::cout << "Dijkstra Algorithm Heap:\n";
 			raster.print();
 			std::cout << std::endl;
 			raster.printPath();
@@ -243,8 +241,7 @@ int main(int argc, char **argv)
 		else if (option_1 == "-dt")
 		{
 			long long time = Dijkstra::findShortestPath_Table(raster, false);
-			std::cout << std::left << std::setw(32) << std::setfill(' ') << "Dijkstra Algorithm Table: ";
-			std::cout << std::right << std::setw(15) << std::setfill('_') << time << std::endl;
+			std::cout << "Dijkstra Algorithm Table:\n";
 			raster.print();
 			std::cout << std::endl;
 			raster.printPath();
@@ -253,8 +250,7 @@ int main(int argc, char **argv)
 		else if (option_1 == "-bf")
 		{
 			long long time = BellmanFord::findShortestPath(raster, false);
-			std::cout << std::left << std::setw(32) << std::setfill(' ') << "Bellman-Ford Algorithm: ";
-			std::cout << std::right << std::setw(15) << std::setfill('_') << time << std::endl;
+			std::cout << "Bellman-Ford Algorithm:\n";
 			raster.print();
 			std::cout << std::endl;
 			raster.printPath();
@@ -267,7 +263,7 @@ int main(int argc, char **argv)
 		}
 	}
 
-	/* Przypadek generowania tabelki z czasami wykonania */
+	/* Generate result table */
 	if (argc == 6 && std::string(argv[2]) == "-t")
 	{
 		std::string option_1(argv[1]);
@@ -283,7 +279,7 @@ int main(int argc, char **argv)
 		{
 			M = (unsigned)std::stoi(option_3);
 			N = (unsigned)std::stoi(option_4);
-			step = (unsigned)std::stod(option_5);
+			step = (unsigned)std::stoi(option_5);
 		}
 		catch (...)
 		{

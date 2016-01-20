@@ -19,8 +19,8 @@ Raster DataGenerator::createFromVector(std::vector<std::string>& lines)
 		return Raster();
 	}
 
-	unsigned M = lines.size();
-	unsigned N = lines[0].length();
+	unsigned M = (unsigned)lines.size();
+	unsigned N = (unsigned)lines[0].length();
 
 	bool beginSet = false;
 	Coords begin;
@@ -278,7 +278,7 @@ Raster DataGenerator::getFromStandardStream()
 	std::string row;
 
 	std::getline(std::cin, row);
-	unsigned columns = row.length();
+	unsigned columns = (unsigned)row.length();
 
 	while (!row.empty())
 	{
@@ -318,7 +318,7 @@ Raster DataGenerator::getFromFileStream(std::string path)
 	std::string row;
 
 	reader >> row;
-	unsigned columns = row.length();
+	unsigned columns = (unsigned)row.length();
 
 	while (!reader.eof())
 	{
@@ -407,7 +407,7 @@ std::vector<TableLine> DataGenerator::generateStatistics(Algorithm algorithm, un
 		N += step;
 	}
 
-	unsigned median_idx = (lines.size() + 1) / 2;
+	unsigned median_idx = (unsigned)(lines.size() + 1) / 2;
 
 	double median_q_part = lines[median_idx].get_T_n() / ((double)lines[median_idx].get_t_n());
 
